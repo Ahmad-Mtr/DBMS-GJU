@@ -47,7 +47,7 @@ where  SKU_Description LIKE '%Climb%';
 
 -- 2.
 select distinct SKU, SKU_Description from inventory
-where  SKU_Description LIKE '%__d%';
+where  SKU_Description LIKE '__d%';
 
 -- 3.
 select COUNT(QuantityOnHand) as Quantity,MIN(QuantityOnHand) as MIN, MAX(QuantityOnHand) as MAX, SUM(QuantityOnHand) as SUM,
@@ -55,31 +55,16 @@ select COUNT(QuantityOnHand) as Quantity,MIN(QuantityOnHand) as MIN, MAX(Quantit
     from inventory;
 
 -- 4.
-ALTER TABLE order_item ADD Total_Price_Product int;
-update order_item set order_item.Total_Price_Product = Quantity * Price;
-select COUNT(Quantity) as Quantity_of_Orders, SUM(Total_Price_Product) as Total_Price_All from order_item;
+# ALTER TABLE order_item ADD Total_Price_Product int;       # this used to to create a new column in which every row is quantity of product * price
+# update order_item set order_item.Total_Price_Product = Quantity * Price;
+select COUNT(Quantity) as Quantity_of_Orders, SUM(Total_Price_Product) as Total_Price_All   #Count is used to count the number of rows for a single column, while SUM() return the summation of the values in the selected column
+from order_item;
 
 
 -- 5.
-SELECT w.WarehouseID, SUM(i.QuantityOnHand) AS TotalItemsOnHandLT3
-FROM warehouse w
-JOIN inventory i ON w.WarehouseID = i.WarehouseID
-WHERE i.SKU NOT IN (
-   select i.SKU from inventory where QuantityOnHand >= 3
-)
-GROUP BY w.WarehouseID
-HAVING COUNT(DISTINCT i.SKU) < 2
-ORDER BY TotalItemsOnHandLT3 DESC;
+select WarehouseID, SUM(QuantityOnHand) as TotalitemsonHandLT3 from inventory # select W..ID, SUM(Q_onHand) as TIHLT3
+where QuantityOnHand < 3    # Omit items Q_Hand >= 3
+group by WarehouseID    # group W_ID
+having TotalitemsonHandLT3 < 2  # show TIHLT3 < 2
+order by TotalitemsonHandLT3 DESC;
 
-/* TOTHANDLT3
-Write an SQL statement to display the WarehouseID and the sum of QuantityOnHand grouped by
-WarehouseID. Omit all SKU items that have three or more items on hand from the sum, and name
-the sum TotalItemsOnHandLT3. Show the Warehouse ID only for warehouses having fewer than two
-SKUs in their TotalItemsOnHandLT3. Display the results in descending order of
-TotalItemsOnHandLT3.
-
- sum of QOHand
- omit SKU >= 3
- show warehouse iff num of sku s < 2
- display total DESC
- */
