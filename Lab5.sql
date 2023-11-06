@@ -84,7 +84,7 @@ where Item = 'Dress Shirt'
 
 -- 18. Show the FirstName, LastName and TotalAmount of all customers who have had an order with an Item named “Dress Shirt”.
 -- Use a join with a subquery. Present results sorted by LastName in ascending order and then FirstName in descending order.
-select FirstName, LastName
+select FirstName, LastName, TotalAmount
 from customer
          JOIN invoice i on customer.CustomerID = i.CustomerID
 where i.InvoiceNumber in (select InvoiceNumber from invoice_item where Item = 'Dress Shirt');
