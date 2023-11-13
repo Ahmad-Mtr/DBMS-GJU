@@ -5,11 +5,9 @@ use mdc_ch02;
 select a.LastName, a.FirstName, a.Phone, b.TotalAmount
 from customer a
          left join invoice b on a.CustomerID = b.CustomerID
-where b.InvoiceNumber in (select InvoiceNumber
+and InvoiceNumber in (select InvoiceNumber
                           from invoice_item
-                          where item = 'Dress Shirt') or b.InvoiceNumber in (select InvoiceNumber
-                          from invoice_item
-                          where item != 'Dress Shirt')
+                          where item = 'Dress Shirt')
 order by b.TotalAmount asc, a.LastName asc, a.FirstName DESC
 ;
 
