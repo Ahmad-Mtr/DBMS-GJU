@@ -187,9 +187,28 @@ WHERE RETAIL_ORDER.OrderNumber = ORDER_ITEM.OrderNumber;
    every row of the table.
 9. **Referential Integrity Constraint:** All foreign keys exist as a primary key in their original table.
 
----
+***
+### Date Functions
+* **DATE_FORMAT** 
+```mysql
+DATE_FORMAT(NOW(), '%D %M %Y') = '1st June 2023' 
 
-### Quiz Solution
+DATE_FORMAT(NOW(), '%D-%M-%Y') = '1st-June-2023'
+```
+* **DATE_ADD**
+```mysql
+DATE_ADD(date, INTERVAL unit)
+
+DATE_ADD(NOW(), INTERVAL 1000 MICROSECOND) AS DateBatata
+# returns 2023-12-04 00:05:12.001000 for example
+```
+* CURRENT_TIMESTAMP()
+```mysql
+CURRENT_TIMESTAMP() 
+# returns current time with Hrs:Mins:Secs
+```
+---
+### Quiz Solution (Not all 100% correct)
 
 For all projects starting after may, 1, 2010, find the project number and the IDs and names of all workers assigned to
 them.
@@ -198,7 +217,7 @@ them.
 select p1.projNO, w1.empID, w1.firstname, w1.lastname
 from Project p1
          JOIN Worker w1
-              on p1.projMgrID = w1.empID
+              join Assign a1 on p1.projNO = a1.projNO AND w1.empID = a1.empID
 where startDate > "05-01-2010";
 ```
 
@@ -229,9 +248,3 @@ that none of the non-key attributes N, O, or P can be determined
 by just A or B.
 
 
-## Distinguish between Week entity and ID-dependent entity
-**Id-dependent entity**: Examples -> student, Citizen, Employee.
-All of those are Id-depenent entities, by that they are all have a Surrogate key that is usually the Primary Key.
-
-**Week entitty**:  Week Days, Num of Days.
-An entity that Describes a week. Example --> Week 01 of January, 7 days
