@@ -5,12 +5,19 @@ use mdc_ch02;
 select a.LastName, a.FirstName, a.Phone, b.TotalAmount
 from customer a
          left join invoice b on a.CustomerID = b.CustomerID
-and InvoiceNumber in (select InvoiceNumber
+where b.InvoiceNumber in (select InvoiceNumber
                           from invoice_item
-                          where item = 'Dress Shirt')
+                          where item = 'Dress Shirt') or b.InvoiceNumber in (select InvoiceNumber
+                          from invoice_item
+                          where item != 'Dress Shirt')
 order by b.TotalAmount asc, a.LastName asc, a.FirstName DESC
 ;
-
+select a.LastName, a.FirstName, a.Phone, b.TotalAmount
+from customer a
+        join invoice b on a.CustomerID = b.CustomerID left OUTER JOIN invoice_item x on b.InvoiceNumber = x.InvoiceNumber
+where Item = 'Dress Shirt'
+order by TotalAmount
+;
 -- Write an SQL statement to join WAREHOUSE and INVENTORY and include all rows of WAREHOUSE in your answer, regardless of whether they have any INVENTORY.
 -- Include all columns of both tables, but do not repeat the join columns.
 select w.WarehouseID

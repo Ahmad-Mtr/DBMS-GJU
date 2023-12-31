@@ -83,7 +83,7 @@ where emp.DepartmentID in (select DepartmentID from departments where Department
 -- 15. Retrieve the names of projects that are scheduled to start within the next 30 days.
 select prjkt.*
 from projects prjkt
-where datediff(StartDate, now()) > 30;
+where datediff(StartDate, now()) < 30;
 
 /* Date Functions
  CURRENT_DATE() / CURDATE(): Return the current date in 'YYYY-MM-DD' format.
