@@ -1,6 +1,11 @@
 # DBMS CheatSheet
 
 ***
+> Note: this File doesn't contain all info from CS263
+> 
+[Another MYSQL CheatSheet](https://gist.github.com/bradtraversy/c831baaad44343cc945e76c2e30927b3)
+
+---
 **Metadata**: The self-describing data is called metadata, which is
 data about data.
 
@@ -206,6 +211,67 @@ DATE_ADD(NOW(), INTERVAL 1000 MICROSECOND) AS DateBatata
 ```mysql
 CURRENT_TIMESTAMP() 
 # returns current time with Hrs:Mins:Secs
+```
+---
+### SQL CH7?:
+
+```mysql
+create table if not exists x_copy as
+select * from batata; -- Basically any SQL Select Statement 
+
+drop database if exists Dat_DB;
+
+alter table students
+add email varchar(32);
+
+alter table students
+drop column email;
+
+alter table students
+modify email varchar(90);
+
+insert into student_table values(1, 'value2', 'value3', '2022-11-28');
+
+insert into student_table(id, firstname, other_column_name)
+values(10,'asdsada', 'Batata'),
+(20,'Name', 'Kartoffel'); -- Notice how there's no comma here
+```
+#### Constraints
+```mysql
+create table student(
+  ID int auto_increment,    /* primary key */  /* This is a method to add a PK*/
+  name varchar(64) not null default 'Batata Al-batata',
+  lastname varchar() unique,
+  age int,
+  SALARY decimal(6, 0)  ,
+ 
+  constraint Stu_PK primary key(ID), /* Preferred Method*/
+  constraint d_FK foreign key (name) references citizen(name),
+  check ( age <= 18 )
+);
+
+
+alter table student
+    add constraint  S_PK primary key(ID);
+
+alter table student
+    drop primary key ;
+
+alter table student
+auto_increment = 100;
+
+alter table student
+    add constraint stu_FK foreign key (name) references citizen(name);
+
+alter table student
+    drop foreign key stu_FK ;
+ 
+```
+#### Other things
+```mysql
+update student
+set name = 'Random Name' where id = 10;
+
 ```
 ---
 ### Quiz Solution (Not all 100% correct)
