@@ -1,7 +1,7 @@
 # DBMS CheatSheet
 
 ***
-> Note: this File doesn't contain all info from CS263
+> Note: this File doesn't contain all info from CS263,And All other CheatSheets are going to be in `_READMEs` Directory
 > 
 [Another MYSQL CheatSheet](https://gist.github.com/bradtraversy/c831baaad44343cc945e76c2e30927b3)
 
