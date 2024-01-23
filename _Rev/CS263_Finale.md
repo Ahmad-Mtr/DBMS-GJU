@@ -1,3 +1,29 @@
+### Double Not exist explanation from Bard.
+This SQL query might seem complex at first glance, but it's actually trying to achieve a specific goal: finding all artists who are not of interest to any customer. Let's break it down step by step:
+
+1. Starting with the inner-most subquery:
+```sql
+SELECT CAI.CustomerID FROM CUSTOMER_ARTIST_INT AS CAI WHERE C.CustomerID = CAI.CustomerID AND A.ArtistID = CAI.ArtistID
+```
+This part checks if there's an entry in the CUSTOMER_ARTIST_INT table (CAI) where the CustomerID matches the current C.CustomerID (from the outer query) and the ArtistID matches the current A.ArtistID (also from the outer query).
+
+If such an entry exists, it means the customer with C.CustomerID is interested in the artist A.ArtistID.
+
+2. The middle `NOT EXISTS`:
+```sql
+NOT EXISTS (SELECT CAI.CustomerID FROM CUSTOMER_ARTIST_INT AS CAI WHERE C.CustomerID = CAI.CustomerID AND A.ArtistID = CAI.ArtistID))
+```
+This part negates the inner query. Essentially, it checks if there's NO entry in CUSTOMER_ARTIST_INT for the current C.CustomerID and A.ArtistID.
+In other words, if this condition is true, it means none of the customers are interested in the current artist A.ArtistID.
+
+3. The outer `NOT EXISTS` and final selection:
+```sql
+SELECT A.FirstName, A.LastName FROM ARTIST AS A WHERE NOT EXISTS SELECT C.CustomerID FROM CUSTOMER AS C WHERE NOT EXISTS (SELECT CAI.CustomerID FROM CUSTOMER_ARTIST_INT AS CAI WHERE C.CustomerID = CAI.CustomerID AND A.ArtistID = CAI.ArtistID))
+```
+This part takes all artists (A) and checks if there's any C.CustomerID (customer) for whom the inner NOT EXISTS condition (no customer is interested) is NOT true.
+Remember, the inner NOT EXISTS is checking if no customer is interested. So, the outer NOT EXISTS is essentially checking if at least one customer is interested.
+If the outer `NOT EXISTS` is true, it means no customer is interested in the current artist (A.ArtistID), and their FirstName and LastName are added to the result set.
+In simpler terms, this query finds all artists who are not listed as being of interest to any customer in the `CUSTOMER_ARTIST_INT` table.
 
 ### CH.9 Special thanks to Bard for the Summary
 
